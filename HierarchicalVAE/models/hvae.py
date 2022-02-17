@@ -90,18 +90,15 @@ class HVAE(nn.Module):
 
   def reconstruction(self, x):
     z, _, _ = self.q_z(x)
-    mu, _, _ = self.q_mu(z)
-    z_hat, _, _ = self.p_z(mu)
-    x_prob = self.p_x(z_hat)
+    x_prob = self.p_x(z)
 
     return x_prob
 
   def forward(self, x):
     z, qz_mu, qz_std = self.q_z(x)
     mu, qmu_mu, qmu_std = self.q_mu(z)
-
-    z_hat, pz_mu, pz_std = self.p_z(mu)
-    x_prob = self.p_x(z_hat)
+    _, pz_mu, pz_std = self.p_z(mu)
+    x_prob = self.p_x(z)
 
     # For likelihood : <log p(x|z)>_q :
     elbo = torch.sum(torch.flatten(x.view(-1, 784) * torch.log(x_prob.view(-1, 784) + 1e-8)
