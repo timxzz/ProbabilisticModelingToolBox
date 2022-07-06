@@ -79,3 +79,5 @@ $$
 $$
 
 Need permutation layers for _mixing_!
+
+Toy example in the same directory using a coupling flow like RealNVP/Glow for a 2D data.
